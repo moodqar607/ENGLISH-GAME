@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Articles Challenge – Grade 9</title>
+<style>
+:root{--bg:#f4f6ff;--card:#fff;--ink:#1f2544;--mute:#5b6285;--pri:#4f46e5;--pri2:#7c3aed;--ok:#0f9d6b;--okbg:#e4f7ef;--no:#c2410c;--nobg:#fff1e8;--amb:#d97706;--line:#e2e6f5}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:linear-gradient(160deg,#eef0ff,#f9f1ff);color:var(--ink);min-height:100vh;display:flex;flex-direction:column;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
+main{flex:1;width:100%;max-width:720px;margin:0 auto;padding:16px}
+.card{background:var(--card);border-radius:18px;padding:20px;box-shadow:0 6px 24px rgba(60,50,140,.10);margin-bottom:14px;animation:in .35s ease;position:relative}
+@keyframes in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+h1{font-size:1.7rem;margin:.2em 0}h2{font-size:1.25rem;margin:.2em 0}
+.hero{text-align:center}.emoji{font-size:3rem}
+label{display:block;font-weight:600;margin:14px 0 6px}
+input[type=text],textarea{width:100%;font-size:1rem;padding:13px;border:2px solid var(--line);border-radius:12px;font-family:inherit}
+input[type=text]:focus,textarea:focus{outline:none;border-color:var(--pri)}
+.btn{display:block;width:100%;border:0;border-radius:14px;padding:15px;font-size:1.05rem;font-weight:700;color:#fff;background:linear-gradient(90deg,var(--pri),var(--pri2));cursor:pointer;margin-top:12px;font-family:inherit;text-align:center;text-decoration:none}
+.btn:disabled{opacity:.45;cursor:not-allowed}.btn.alt{background:#fff;color:var(--pri);border:2px solid var(--pri)}.btn.wa{background:#1faa59}
+.tbtn{position:absolute;top:10px;right:10px;border:0;background:#f1f0ff;color:var(--mute);font-size:.75rem;padding:5px 10px;border-radius:999px;cursor:pointer}
+.err{color:var(--no);font-size:.92rem;min-height:1.2em;margin-top:8px}
+.top{position:sticky;top:0;z-index:5;background:var(--card);border-radius:16px;padding:12px 16px;margin-bottom:14px;box-shadow:0 4px 16px rgba(60,50,140,.12)}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.timer{font-variant-numeric:tabular-nums;font-weight:800;font-size:1.25rem;padding:5px 14px;border-radius:999px;background:#eef0ff;color:var(--pri)}
+.timer.warn{background:#fff4dc;color:var(--amb)}.timer.low{background:var(--nobg);color:var(--no);animation:p 1.2s infinite}
+@keyframes p{50%{opacity:.6}}
+.bar{height:8px;background:var(--line);border-radius:9px;overflow:hidden;margin-top:10px}.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--pri),var(--pri2));transition:width .6s}
+.pass{background:#f7f8ff;border-left:4px solid var(--pri);padding:12px 14px;border-radius:10px;margin:12px 0;line-height:1.55}
+.q{border:2px solid var(--line);border-radius:14px;padding:14px;margin:12px 0}
+.q.good{border-color:var(--ok);background:var(--okbg)}.q.bad{border-color:#f0b48e;background:var(--nobg)}
+.qh{display:flex;justify-content:space-between;gap:8px;font-weight:700}.pts{font-size:.8rem;background:#eef0ff;color:var(--pri);border-radius:999px;padding:3px 10px;white-space:nowrap;height:fit-content}
+.opt{display:flex;align-items:center;gap:10px;padding:11px 12px;margin-top:8px;border:2px solid var(--line);border-radius:12px;cursor:pointer;background:#fff}
+.opt:has(input:checked){border-color:var(--pri);background:#f1f0ff}.opt input{width:20px;height:20px;accent-color:var(--pri)}
+.fb{margin-top:10px;font-size:.95rem;line-height:1.5}.fb b{display:block}
+.big{font-size:2.4rem;font-weight:800;text-align:center;color:var(--pri)}
+.msg{background:#f1f0ff;border-radius:12px;padding:12px 14px;margin:12px 0;font-weight:600}
+table{width:100%;border-collapse:collapse;margin:10px 0}td{padding:10px 6px;border-bottom:1px solid var(--line)}td:last-child{text-align:right;font-weight:700}
+.hide{display:none}.note{font-size:.88rem;color:var(--mute)}
+.send{background:#fff8e6;border:2px solid #f5d98b;border-radius:14px;padding:14px;margin-top:14px}
+textarea{height:130px;font-size:.85rem}
+footer{text-align:center;padding:18px 10px;font-weight:700;color:var(--mute)}
+</style>
+</head>
+<body>
+<main>
+<section id="s-start" class="card hero">
+  <button class="tbtn" id="tb">Teacher</button>
+  <div class="emoji">🌟</div><h1>Articles Challenge</h1>
+  <p>Grade 9 • a, an, the or no article • 3 levels</p>
+  <div style="text-align:left">
+    <label for="nm">Full Name</label><input id="nm" type="text" maxlength="60" autocomplete="name" placeholder="Write your full name">
+    <label for="cl">Class</label><input id="cl" type="text" maxlength="20" placeholder="Example: 9A">
+  </div>
+  <div class="err" id="serr"></div>
+  <button class="btn" id="go">Start Level 1 ▶</button>
+  <p class="note">Each level has a timer. You can submit only once per level.</p>
+</section>
+
+<section id="s-level" class="hide">
+  <div class="top">
+    <div class="row"><strong id="lt"></strong><span class="timer" id="tm" role="timer">00:00</span></div>
+    <div class="bar"><i id="pb"></i></div>
+  </div>
+  <div class="card">
+    <div id="intro"></div><div id="qs"></div>
+    <div class="err" id="lerr"></div>
+    <button class="btn" id="sub">Submit Answers ✔</button>
+  </div>
+  <div id="rev" class="hide"></div>
+</section>
+
+<section id="s-final" class="card hide">
+  <div class="emoji" style="text-align:center">🏆</div><h1 style="text-align:center">Final Results</h1>
+  <table id="ft"></table>
+  <div class="big" id="fp"></div>
+  <div class="msg" id="fm"></div>
+  <div class="send">
+    <b>📩 Last step: send your result to your teacher</b>
+    <p class="note">Your teacher only receives your result when you send it. Tap one button.</p>
+    <a class="btn wa" id="wa" target="_blank" rel="noopener">Send on WhatsApp</a>
+    <a class="btn alt" id="em">Send by Email</a>
+    <button class="btn alt" id="cp">Copy my result</button>
+    <textarea id="rt" readonly></textarea>
+  </div>
+</section>
+
+<section id="s-teacher" class="card hide">
+  <h1>Teacher: make the Excel file</h1>
+  <p class="note">Paste all the result messages your students sent you (WhatsApp, email…). The page finds each student's result and makes an Excel file with a separate sheet for each class. Nothing is uploaded anywhere.</p>
+  <textarea id="paste" placeholder="Paste the messages here"></textarea>
+  <button class="btn" id="mk">Create Excel file</button>
+  <div class="msg hide" id="tmsg"></div>
+  <button class="btn alt" id="back">Back</button>
+</section>
+</main>
+<footer>T.Muzna Al-Rahbi</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+// ===== TEACHER SETUP (optional): your WhatsApp number with country code, digits only, e.g. "968XXXXXXXX". =====
+// If left empty, students choose your contact themselves when WhatsApp opens.
+const TEACHER_WHATSAPP = "";
+const TEACHER_EMAIL = "muznamd@icloud.com";
+// ============================================================================================================
+const KEY = "eng9_articles_v1";
+const AR = ["a","an","the","no article"];
+const LEVELS = [
+ {title:"Level 1: A or An?", time:240, intro:"<h2>Choose the best article.</h2><p class='note'>Each sentence talks about one new thing. Tip: listen to the SOUND of the first letter, not the spelling.</p>", q:[
+  {t:"She is ___ engineer.", o:AR, a:1, e:"“Engineer” starts with a vowel sound (/e/), so we use “an”."},
+  {t:"My cousin is ___ university student.", o:AR, a:0, e:"“University” starts with a “yoo” sound, which is a consonant sound, so we use “a”."},
+  {t:"We waited for ___ hour.", o:AR, a:1, e:"The “h” in “hour” is silent, so the word starts with a vowel sound: “an hour”."},
+  {t:"He wants to be ___ pilot.", o:AR, a:0, e:"“Pilot” starts with a consonant sound, so we use “a”."},
+  {t:"I need ___ orange for my juice.", o:AR, a:1, e:"“Orange” starts with a vowel sound, so we use “an”."}]},
+ {title:"Level 2: The or No Article", time:300, intro:"<h2>Choose the best answer.</h2><p class='note'>Sometimes we do not need any article. Then choose “no article”.</p>", q:[
+  {t:"I love ___ music.", o:AR, a:3, e:"We do not use an article when we talk about something in general, like music."},
+  {t:"___ sun is very hot today.", o:AR, a:2, e:"There is only one sun, so we use “the”."},
+  {t:"She speaks ___ French very well.", o:AR, a:3, e:"We do not use an article before the name of a language."},
+  {t:"This is ___ best pizza in town.", o:AR, a:2, e:"We use “the” before superlatives such as “best”."},
+  {t:"We have ___ dinner at seven.", o:AR, a:3, e:"We do not use an article before meals: breakfast, lunch and dinner."}]},
+ {title:"Level 3: Article Master", time:300, intro:"<h2>Choose or type the answer.</h2><p class='note'>For typed answers, write one word only: a, an or the.</p>", q:[
+  {t:"Choose the correct sentence.", o:["I saw a elephant at the zoo.","I saw an elephant at the zoo.","I saw the elephant at zoo.","I saw elephant at the zoo."], a:1, e:"“Elephant” starts with a vowel sound, so we say “an elephant”."},
+  {t:"Type the missing article: I have ___ idea!", type:"text", a:["an"], e:"“Idea” starts with a vowel sound, so we use “an”."},
+  {t:"Choose the correct sentence.", o:["Nile is a longest river in Africa.","The Nile is the longest river in Africa.","Nile is the longest river in Africa.","The Nile is longest river in Africa."], a:1, e:"We use “the” before names of rivers and before superlatives: “The Nile … the longest”."},
+  {t:"I saw a dog in the park. Type the missing article: ___ dog was very big.", type:"text", a:["the"], e:"We already talked about this dog (second mention), so we use “the”."},
+  {t:"Ahmed plays ___ football every Friday.", o:AR, a:3, e:"We do not use an article before the name of a sport."}]}
+];
+const PTS = 2;
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const max = LEVELS.reduce((s,l)=>s+l.q.length*PTS,0);
+let S = load(), tick = null;
+
+function load(){try{return JSON.parse(localStorage.getItem(KEY))}catch(e){return null}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+function show(id){["s-start","s-level","s-final","s-teacher"].forEach(x=>$(x).classList.toggle("hide",x!==id));window.scrollTo(0,0)}
+const msgFor = p => p>=80 ? "Excellent work! You are a real star. Keep shining! 🌟"
+  : p>=50 ? "Great effort! You are learning fast. Keep going! 💪"
+  : "Good try! Every question helps you grow. You can do it! 🌱";
+const norm = s => String(s).trim().toLowerCase().replace(/[.!?]/g,"");
+const total = () => S.res.reduce((s,r)=>s+(r?r.score:0),0);
+
+$("go").onclick = () => {
+  const n = $("nm").value.replace(/[|\r\n]/g," ").trim().replace(/\s+/g," "), c = $("cl").value.replace(/[|\r\n]/g," ").trim().replace(/\s+/g," ");
+  if(n.length<3 || !n.includes(" ")) return $("serr").textContent="Please write your full name (first and last name).";
+  if(!c) return $("serr").textContent="Please write your class.";
+  S = {id:"A"+Date.now().toString(36)+Math.random().toString(36).slice(2,6), name:n, cls:c, lvl:0, res:[null,null,null], dl:[null,null,null], dt:null};
+  save(); openLevel();
+};
+
+function openLevel(){
+  const L = LEVELS[S.lvl];
+  show("s-level"); $("lt").textContent = L.title; $("lerr").textContent = "";
+  $("intro").innerHTML = L.intro;
+  $("qs").innerHTML = L.q.map((q,i)=>`<div class="q" id="q${i}"><div class="qh"><span>${i+1}. ${esc(q.t)}</span><span class="pts">${PTS} pts</span></div>` +
+    (q.type==="text" ? `<input type="text" id="a${i}" maxlength="30" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Type your answer" style="margin-top:10px">`
+      : q.o.map((o,j)=>`<label class="opt"><input type="radio" name="r${i}" value="${j}"><span>${esc(o)}</span></label>`).join("")) +
+    `<div class="fb hide" id="f${i}"></div></div>`).join("");
+  $("sub").classList.remove("hide"); $("rev").classList.add("hide");
+  $("pb").style.width = (S.lvl/3*100)+"%";
+  if(S.res[S.lvl]){ return review(); }
+  if(!S.dl[S.lvl]){ S.dl[S.lvl] = Date.now()+L.time*1000; save(); }
+  clearInterval(tick); tick = setInterval(update,250); update();
+}
+function update(){
+  const left = Math.max(0, Math.ceil((S.dl[S.lvl]-Date.now())/1000)), t = $("tm");
+  t.textContent = String(Math.floor(left/60)).padStart(2,"0")+":"+String(left%60).padStart(2,"0");
+  t.className = "timer"+(left<=20?" low":left<=60?" warn":"");
+  if(left<=0) submit(true);
+}
+$("sub").onclick = () => {
+  const L = LEVELS[S.lvl], miss = L.q.some((q,i)=>!answerOf(q,i));
+  if(miss && !confirm("Some questions are empty. Submit anyway? You cannot change answers after submitting.")) return;
+  submit(false);
+};
+function answerOf(q,i){
+  if(q.type==="text") return $("a"+i).value.trim();
+  const r = document.querySelector(`input[name=r${i}]:checked`); return r ? r.value : "";
+}
+function submit(timeout){
+  if(S.res[S.lvl]) return;               // one submission per level
+  clearInterval(tick);
+  const L = LEVELS[S.lvl];
+  const ans = L.q.map((q,i)=>answerOf(q,i));
+  const score = L.q.reduce((s,q,i)=>s+(isRight(q,ans[i])?PTS:0),0);
+  S.res[S.lvl] = {score, ans, timeout:!!timeout}; save();
+  review();
+}
+function isRight(q,a){ return q.type==="text" ? q.a.includes(norm(a)) : a!=="" && Number(a)===q.a; }
+function review(){
+  clearInterval(tick);
+  const L = LEVELS[S.lvl], r = S.res[S.lvl], lvMax = L.q.length*PTS;
+  L.q.forEach((q,i)=>{
+    const ok = isRight(q,r.ans[i]), mine = r.ans[i]==="" ? "No answer" : (q.type==="text" ? r.ans[i] : q.o[r.ans[i]]);
+    const right = q.type==="text" ? q.a[0] : q.o[q.a];
+    document.querySelectorAll(`#q${i} input`).forEach(x=>x.disabled=true);
+    $("q"+i).classList.add(ok?"good":"bad");
+    const f = $("f"+i); f.classList.remove("hide");
+    f.innerHTML = `<b>${ok?"✅ Correct! +"+PTS:"💡 Not this time (0)"}</b>Your answer: ${esc(mine)}<br>Correct answer: <strong>${esc(right)}</strong><br>Why? ${esc(q.e)}`;
+  });
+  $("sub").classList.add("hide");
+  const done = S.lvl+1, last = S.lvl===2;
+  $("pb").style.width = (done/3*100)+"%";
+  $("rev").classList.remove("hide");
+  $("rev").innerHTML = `<div class="card"><div class="big">${r.score} / ${lvMax}</div>
+    ${r.timeout?"<p class='note' style='text-align:center'>⏰ Time was up, so your answers were submitted automatically.</p>":""}
+    <div class="msg">${msgFor(r.score/lvMax*100)} ${last?"":"Get ready for the next level!"}</div>
+    <p><b>Your progress:</b> ${done} of 3 levels complete • ${total()} / ${LEVELS.slice(0,done).reduce((s,l)=>s+l.q.length*PTS,0)} points so far</p>
+    <button class="btn" id="nx">${last?"See Final Results 🏆":"Next Level ▶"}</button></div>`;
+  $("nx").onclick = () => { if(last){ finish(); } else { S.lvl++; save(); openLevel(); } };
+  $("rev").scrollIntoView({behavior:"smooth",block:"start"});
+}
+function buildMsg(){
+  const p = Math.round(total()/max*100), sc = S.res.map(r=>r?r.score:0), pad = n=>String(n).padStart(2,"0");
+  if(!S.dt){ const d = new Date(); S.dt = `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`; save(); }
+  const code = ["ENG9",S.id,S.cls.toUpperCase(),S.name,...sc,total(),max,p,S.dt].join("|");
+  return `Articles Challenge – Grade 9\nName: ${S.name}\nClass: ${S.cls}\nLevel 1: ${sc[0]}/${LEVELS[0].q.length*PTS}\nLevel 2: ${sc[1]}/${LEVELS[1].q.length*PTS}\nLevel 3: ${sc[2]}/${LEVELS[2].q.length*PTS}\nTotal: ${total()}/${max} (${p}%)\n\n${code}`;
+}
+function finish(){
+  show("s-final");
+  const p = Math.round(total()/max*100), m = buildMsg(), enc = encodeURIComponent(m);
+  $("ft").innerHTML = `<tr><td>Name</td><td>${esc(S.name)}</td></tr><tr><td>Class</td><td>${esc(S.cls)}</td></tr>` +
+    LEVELS.map((l,i)=>`<tr><td>Level ${i+1}</td><td>${S.res[i]?S.res[i].score:0} / ${l.q.length*PTS}</td></tr>`).join("") +
+    `<tr><td>Total score</td><td>${total()}</td></tr><tr><td>Total possible</td><td>${max}</td></tr><tr><td>Percentage</td><td>${p}%</td></tr>`;
+  $("fp").textContent = p+"%"; $("fm").textContent = msgFor(p) + " Thank you for playing!";
+  $("rt").value = m;
+  $("wa").href = "https://wa.me/" + TEACHER_WHATSAPP.replace(/\D/g,"") + "?text=" + enc;
+  $("em").href = "mailto:" + TEACHER_EMAIL + "?subject=" + encodeURIComponent("Articles Challenge – " + S.name + " – " + S.cls) + "&body=" + enc;
+}
+$("cp").onclick = async () => {
+  const t = $("rt"); t.select();
+  try{ await navigator.clipboard.writeText(t.value); }catch(e){ try{ document.execCommand("copy"); }catch(_){} }
+  $("cp").textContent = "Copied ✔ – now paste it in a message to your teacher";
+};
+
+// ---------- Teacher tool ----------
+$("tb").onclick = () => show("s-teacher");
+$("back").onclick = () => show("s-start");
+$("mk").onclick = () => {
+  const lines = ($("paste").value.match(/ENG9\|[^\r\n]+/g) || []), byId = new Map();
+  lines.forEach(l => { const f = l.trim().split("|"); if(f.length >= 11) byId.set(f[1], f); });   // same attempt sent twice = counted once
+  const by = {};
+  byId.forEach(f => (by[f[2]] = by[f[2]] || []).push([f[3],+f[4],+f[5],+f[6],+f[7],+f[8],+f[9],f[10]]));
+  const classes = Object.keys(by).sort(), tm = $("tmsg"); tm.classList.remove("hide");
+  if(!classes.length){ tm.textContent = "No results found. Paste the full messages, including the last line that starts with ENG9."; return; }
+  const HEAD = ["Name","Level 1","Level 2","Level 3","Total","Possible","Percentage %","Date/time"];
+  classes.forEach(c => by[c].sort((a,b)=>a[0].localeCompare(b[0])));
+  if(window.XLSX){
+    const wb = XLSX.utils.book_new();
+    classes.forEach(c => { const ws = XLSX.utils.aoa_to_sheet([HEAD,...by[c]]); ws["!cols"] = [{wch:28},{wch:9},{wch:9},{wch:9},{wch:8},{wch:9},{wch:13},{wch:17}];
+      XLSX.utils.book_append_sheet(wb, ws, c.replace(/[\[\]*?:\/\\]/g,"").slice(0,31) || "Class"); });
+    XLSX.writeFile(wb, "English-Challenge-Results.xlsx");
+    tm.textContent = `Done: ${byId.size} results in ${classes.length} class(es). One sheet per class. Check your Downloads.`;
+  } else {
+    const csv = ["Class,"+HEAD.join(",")].concat(classes.flatMap(c => by[c].map(r => [c,...r].map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(",")))).join("\n");
+    const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob(["\ufeff"+csv],{type:"text/csv"})); a.download = "English-Challenge-Results.csv"; a.click();
+    tm.textContent = `The Excel maker could not load (no internet), so a CSV file with a Class column was made instead: ${byId.size} results.`;
+  }
+};
+
+// Resume after refresh (timer keeps its original deadline; submitted levels stay locked)
+if(S && S.name){ if(S.res[2]) finish(); else openLevel(); }
+</script>
+</body>
+</html>
